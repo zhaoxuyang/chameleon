@@ -95,3 +95,9 @@ public class MyApplication extends Application {
     }
 }
 ```
+
+## TODO
+
+1、Applicator annotation processer
+
+2、对通过代码创建的控件，提供换肤操作
