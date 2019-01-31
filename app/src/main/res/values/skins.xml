@@ -1,14 +1,16 @@
 <resources>
 
+     <!--定义皮肤的全部属性，例如全局的背景色，全局的字体色等-->
     <declare-styleable name="skin_attr">
         <attr name="main_bg" format="color|reference"></attr>
         <attr name="button_bg" format="color|reference"></attr>
         <attr name="button_text_color" format="color|reference"></attr>
         <attr name="text_color" format="color|reference"></attr>
         <attr name="line_color" format="color|reference"></attr>
-
     </declare-styleable>
 
+    <!--定义皮肤主题，给皮肤的属性赋值-->
+    <!--白天皮肤-->
     <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
         <item name="main_bg">@color/main_bg</item>
         <item name="button_bg">@color/button_bg</item>
@@ -17,6 +19,7 @@
         <item name="line_color">@color/line_color</item>
     </style>
 
+    <!--夜间皮肤-->
     <style name="AppNightTheme" parent="android:Theme.Light.NoTitleBar">
         <item name="main_bg">@color/night_main_bg</item>
         <item name="button_bg">@color/night_button_bg</item>
