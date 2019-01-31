@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:background="?attr/button_bg"
+        android:textColor="?attr/button_text_color"
+        android:text="day skin"
+        android:onClick="setDaySkin"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="?attr/button_bg"
+        android:textColor="?attr/button_text_color"
+        android:text="night skin"
+        android:onClick="setNightSkin"/>
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/main_bg">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/change_skin_tab">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="中新社北京1月29日电(郭超凯)中国航天科技集团副总经理杨保华29日在北京表示，计划将于2019年7月中下旬发射长征五号遥三火箭，完成长征五号运载火箭的复飞。
+
+当天，《中国航天科技活动蓝皮书(2018)》新闻发布会在北京举行。杨保华在会上称，长征五号遥二火箭2017年7月发射失利后，过去一年中国航天科技集团进行了归零总结。按计划长征五号遥三火箭将于2019年7月中下旬发射，目前总体进展顺利。
+
+杨保华还透露，长征五号B运载火箭进入试样阶段。长征五号B运载火箭是中国近地轨道运载能力最大的新一代运载火箭，将承担空间站舱段发射任务。火箭采用无毒低污染推进剂，近地轨道运载能力超过22吨。
+
+2017年7月2日，长征五号遥二火箭在海南文昌航天发射场实施发射，火箭飞行至346秒时突发故障。根据分析仿真计算及地面试验结果，故障原因为芯一级液氢液氧发动机一分机涡轮排气装置在复杂力热环境下，局部结构发生异常，发动机推力瞬时大幅下降，致使发射任务失利。
+
+"
+            android:textColor="?attr/text_color" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/button_bg"
+            android:onClick="startActivity2"
+            android:padding="5dp"
+            android:textColor="?attr/button_text_color"
+            android:text="activity 2"
+            android:layout_gravity="bottom|center_horizontal"/>
+    </FrameLayout>
+
+    <include
+        android:id="@+id/change_skin_tab"
+        layout="@layout/change_skin_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

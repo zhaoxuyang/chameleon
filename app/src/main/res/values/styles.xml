@@ -1,0 +1,26 @@
+<resources>
+
+    <declare-styleable name="skin_attr">
+        <attr name="main_bg" format="color|reference"></attr>
+        <attr name="button_bg" format="color|reference"></attr>
+        <attr name="button_text_color" format="color|reference"></attr>
+        <attr name="text_color" format="color|reference"></attr>
+
+    </declare-styleable>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="main_bg">@color/main_bg</item>
+        <item name="button_bg">@color/button_bg</item>
+        <item name="button_text_color">@color/button_text_color</item>
+        <item name="text_color">@color/text_color</item>
+
+    </style>
+
+    <style name="AppNightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="main_bg">@color/night_main_bg</item>
+        <item name="button_bg">@color/night_button_bg</item>
+        <item name="button_text_color">@color/night_button_text_color</item>
+        <item name="text_color">@color/night_text_color</item>
+    </style>
+
+</resources>

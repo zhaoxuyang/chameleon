@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/main_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/change_skin_tab">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="美方正式向加方提出引渡孟晚舟女士，中国驻加拿大使馆对此表示强烈不满和坚决反对。孟晚舟事件不是一起普通的司法案件，而是严重的政治事件。美方动用国家力量抹黑和打压特定的中国企业，企图扼杀企业的正当合法经营，背后有很强的政治企图和政治操弄。美加两国滥用他们之间的双边引渡条约，对中国公民无理采取强制措施，是对中国公民合法权益的严重侵犯。我们敦促加方认真对待中方严正立场，立即释放孟晚舟女士并切实保障她的合法、正当权益，不要为美火中取栗。"
+            android:textColor="?attr/text_color" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/button_bg"
+            android:onClick="startActivity3"
+            android:padding="5dp"
+            android:textColor="?attr/button_text_color"
+            android:text="activity 3"
+            android:layout_gravity="bottom|center_horizontal"/>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/change_skin_tab"
+        layout="@layout/change_skin_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

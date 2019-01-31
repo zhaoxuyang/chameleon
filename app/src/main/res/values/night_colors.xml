@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="night_main_bg">#262f3c</color>
+    <color name="night_button_bg">#285FAF</color>
+    <color name="night_button_text_color">#A6BDDE</color>
+    <color name="night_text_color">#95A7C2</color>
+
+</resources>
