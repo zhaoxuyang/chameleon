@@ -1,10 +1,11 @@
-package com.zxy.skin.demo;
+package com.zxy.skin.demo.activity;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.zxy.skin.demo.R;
 import com.zxy.skin.sdk.SkinActivity;
 import com.zxy.skin.sdk.SkinEngine;
 

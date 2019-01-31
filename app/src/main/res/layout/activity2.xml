@@ -13,10 +13,10 @@
         android:orientation="vertical"
         android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+       <com.zxy.skin.demo.widget.CustomView
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           app:lineColor="?attr/line_color"/>
 
         <TextView
             android:layout_width="match_parent"

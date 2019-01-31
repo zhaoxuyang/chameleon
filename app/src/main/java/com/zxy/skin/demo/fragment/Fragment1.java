@@ -1,4 +1,4 @@
-package com.zxy.skin.demo;
+package com.zxy.skin.demo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.zxy.skin.demo.R;
 import com.zxy.skin.sdk.SkinFragment;
 
 

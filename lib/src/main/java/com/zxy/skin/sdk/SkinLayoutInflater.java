@@ -262,7 +262,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
          */
         public void changeSkin() {
             if (changeAttrs.size() > 0) {
-                SkinViewApplicator adapter = SkinApplicatorManager.getAdapter(view.getClass());
+                SkinViewApplicator adapter = SkinApplicatorManager.getApplicator(view.getClass());
                 if (adapter != null) {
                     adapter.apply(view, changeAttrs);
                 }

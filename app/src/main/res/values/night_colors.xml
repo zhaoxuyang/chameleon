@@ -4,5 +4,6 @@
     <color name="night_button_bg">#285FAF</color>
     <color name="night_button_text_color">#A6BDDE</color>
     <color name="night_text_color">#95A7C2</color>
+    <color name="night_line_color">#00FF00</color>
 
 </resources>

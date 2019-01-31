@@ -1,4 +1,4 @@
-package com.zxy.skin.demo;
+package com.zxy.skin.demo.activity;
 
 
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 
+import com.zxy.skin.demo.fragment.Fragment1;
+import com.zxy.skin.demo.fragment.Fragment2;
+import com.zxy.skin.demo.R;
 import com.zxy.skin.sdk.SkinActivity;
 import com.zxy.skin.sdk.SkinEngine;
 

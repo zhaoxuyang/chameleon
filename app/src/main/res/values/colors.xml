@@ -4,4 +4,6 @@
     <color name="button_bg">#3988FB</color>
     <color name="button_text_color">#FFFFFF</color>
     <color name="text_color">#000000</color>
+    <color name="line_color">#FF0000</color>
+
 </resources>

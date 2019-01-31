@@ -17,15 +17,15 @@ public class SkinApplicatorManager {
 
     private static final String TAG = "SkinApplicatorManager";
 
-    private static SkinViewApplicator defaultSkinViewAdapter = new SkinViewApplicator();
+    private static SkinViewApplicator defaultSkinApplicator = new SkinViewApplicator();
 
-    private static HashMap<Class, SkinViewApplicator> adaptersMap = new HashMap<>();
+    private static HashMap<Class, SkinViewApplicator> applicatorsMap = new HashMap<>();
 
     static {
 
         SkinViewApplicator textViewSkinViewAdapter = new SkinTextViewApplicator();
-        adaptersMap.put(TextView.class, textViewSkinViewAdapter);
-        adaptersMap.put(Button.class, textViewSkinViewAdapter);
+        applicatorsMap.put(TextView.class, textViewSkinViewAdapter);
+        applicatorsMap.put(Button.class, textViewSkinViewAdapter);
 
     }
 
@@ -34,8 +34,17 @@ public class SkinApplicatorManager {
      * @param viewClass
      * @return
      */
-    public static SkinViewApplicator getAdapter(Class<? extends View> viewClass) {
-        SkinViewApplicator skinViewAdapter = adaptersMap.get(viewClass);
-        return skinViewAdapter == null ? defaultSkinViewAdapter : skinViewAdapter;
+    public static SkinViewApplicator getApplicator(Class<? extends View> viewClass) {
+        SkinViewApplicator skinViewAdapter = applicatorsMap.get(viewClass);
+        return skinViewAdapter == null ? defaultSkinApplicator : skinViewAdapter;
+    }
+
+    /**
+     * 注册自定义的applicator
+     * @param viewClass
+     * @param applicator
+     */
+    public static void register(Class<? extends View> viewClass, SkinViewApplicator applicator){
+        applicatorsMap.put(viewClass, applicator);
     }
 }
