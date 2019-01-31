@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 
-import com.zxy.skin.sdk.adapter.SkinViewApplicator;
-import com.zxy.skin.sdk.adapter.SkinApplicatorManager;
+import com.zxy.skin.sdk.applicator.SkinViewApplicator;
+import com.zxy.skin.sdk.applicator.SkinApplicatorManager;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

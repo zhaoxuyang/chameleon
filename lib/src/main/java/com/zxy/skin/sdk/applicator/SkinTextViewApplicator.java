@@ -1,4 +1,4 @@
-package com.zxy.skin.sdk.adapter;
+package com.zxy.skin.sdk.applicator;
 
 
 import android.content.res.TypedArray;

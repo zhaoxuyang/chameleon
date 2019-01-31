@@ -4,7 +4,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 
 import com.zxy.skin.demo.widget.CustomView;
-import com.zxy.skin.sdk.adapter.SkinViewApplicator;
+import com.zxy.skin.sdk.applicator.SkinViewApplicator;
 
 public class SkinCustomViewApplicator extends SkinViewApplicator {
 

@@ -5,7 +5,7 @@ import android.app.Application;
 import com.zxy.skin.demo.skinapplicator.SkinCustomViewApplicator;
 import com.zxy.skin.demo.widget.CustomView;
 import com.zxy.skin.sdk.SkinEngine;
-import com.zxy.skin.sdk.adapter.SkinApplicatorManager;
+import com.zxy.skin.sdk.applicator.SkinApplicatorManager;
 
 
 public class MyApplication extends Application {
