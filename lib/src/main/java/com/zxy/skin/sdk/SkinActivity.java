@@ -1,10 +1,10 @@
 package com.zxy.skin.sdk;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 
 
@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
  * @author: zhaoxuyang
  * @Date: 2019/1/31
  */
-public class SkinActivity extends AppCompatActivity implements SkinEngine.ISkinObserver {
+public class SkinActivity extends FragmentActivity implements SkinEngine.ISkinObserver {
 
     private SkinLayoutInflater mLayoutInfalter;
 
@@ -40,7 +40,6 @@ public class SkinActivity extends AppCompatActivity implements SkinEngine.ISkinO
         }
     }
 
-    @NonNull
     @Override
     public final LayoutInflater getLayoutInflater() {
         if (mLayoutInfalter == null) {
@@ -50,7 +49,7 @@ public class SkinActivity extends AppCompatActivity implements SkinEngine.ISkinO
     }
 
     @Override
-    public final Object getSystemService(@NonNull String name) {
+    public final Object getSystemService(String name) {
         if (Context.LAYOUT_INFLATER_SERVICE.equals(name)) {
             if (mLayoutInfalter == null) {
                 mLayoutInfalter = new SkinLayoutInflater(this);

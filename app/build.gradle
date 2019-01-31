@@ -28,7 +28,6 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support.constraint:constraint-layout:1.1.0'
     api project(':lib')
 }
 
