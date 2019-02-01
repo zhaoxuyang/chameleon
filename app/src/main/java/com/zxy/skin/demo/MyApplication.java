@@ -13,7 +13,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SkinEngine.getInstance().changeSkin(R.style.AppTheme);
+        SkinEngine.changeSkin(R.style.AppTheme);
         SkinApplicatorManager.register(CustomView.class, new SkinCustomViewApplicator());
     }
 }

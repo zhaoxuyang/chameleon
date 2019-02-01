@@ -59,11 +59,16 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
     private Factory2 mFactory2;
 
     public SkinLayoutInflater(Context context) {
-        super(context);
-        init();
+        this(null, context);
     }
 
-    private void init() {
+    public SkinLayoutInflater(LayoutInflater original, Context newContext) {
+        super(newContext);
+        init(original);
+    }
+
+    private void init(LayoutInflater original) {
+
         //将自己设置为LayoutInflaterFactory，接管view的创建
         setFactory2(this);
         if (mConstructorArgsField != null) {
@@ -71,6 +76,29 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
                 mConstructorArgs = (Object[]) mConstructorArgsField.get(this);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
+            }
+        }
+
+        //将自己注册到换肤监听
+        SkinEngine.register(new SkinEngine.SkinLayoutInflaterWrapper(this));
+
+        //设置当前皮肤
+        getContext().setTheme(SkinEngine.getSkin());
+
+        if (original == null) {
+            return;
+        }
+
+        if (original instanceof SkinLayoutInflater) {
+            SkinLayoutInflater skinLayoutInflater = (SkinLayoutInflater) original;
+            this.mFactory = skinLayoutInflater.mFactory;
+            this.mFactory2 = skinLayoutInflater.mFactory2;
+        } else {
+            LayoutInflater.Factory factory = original.getFactory();
+            if (factory instanceof LayoutInflater.Factory2) {
+                mFactory2 = (Factory2) factory;
+            } else {
+                mFactory = factory;
             }
         }
     }
@@ -94,9 +122,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     @Override
     public LayoutInflater cloneInContext(Context context) {
-        SkinLayoutInflater skinLayoutInflater = new SkinLayoutInflater(context);
-        skinLayoutInflater.mFactory = this.mFactory;
-        skinLayoutInflater.mFactory2 = this.mFactory2;
+        SkinLayoutInflater skinLayoutInflater = new SkinLayoutInflater(this, context);
         return skinLayoutInflater;
     }
 
@@ -140,7 +166,8 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
     /**
      * 对收集的控件执行换肤操作
      */
-    public void changeSkin() {
+    public void changeSkin(int themeId) {
+        getContext().setTheme(themeId);
         for (SkinElement skinElement : skinElements) {
             skinElement.changeSkin();
         }
@@ -280,6 +307,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
         /**
          * 检查控件的属性值是否有对主题属性的引用，如果有则需要换肤
+         *
          * @param view
          * @param attrs
          * @return

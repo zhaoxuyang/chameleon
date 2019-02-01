@@ -34,11 +34,11 @@ public class Activity3 extends SkinActivity {
     }
 
     public void setDaySkin(View view){
-        SkinEngine.getInstance().changeSkin(R.style.AppTheme);
+        SkinEngine.changeSkin(R.style.AppTheme);
     }
 
     public void setNightSkin(View view){
-        SkinEngine.getInstance().changeSkin(R.style.AppNightTheme);
+        SkinEngine.changeSkin(R.style.AppNightTheme);
     }
 
 
