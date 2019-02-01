@@ -18,7 +18,7 @@ public class SkinViewApplicator {
 
     private static final String TAG = "SkinViewApplicator";
 
-    protected HashMap<String, IAttributeApplicator> supportAttrs = new HashMap<>();
+    protected HashMap<String, IAttributeApplicator<? extends View>> supportAttrs = new HashMap<>();
 
     private HashMap<String, Integer> mAttrIndexMap = new HashMap<>();
 
