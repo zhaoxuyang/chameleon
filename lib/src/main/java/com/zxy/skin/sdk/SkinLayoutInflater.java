@@ -27,12 +27,14 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     private static String TAG = "SkinLayoutInflater";
 
+    // copy from AOSP PhoneLayoutInflater.java
     private static final String[] sClassPrefixList = {
             "android.widget.",
             "android.webkit.",
             "android.app."
     };
 
+    // copy from AOSP LayoutInflater.java
     private static final StackTraceElement[] EMPTY_STACK_TRACE = new StackTraceElement[0];
 
     private static Field mConstructorArgsField;
@@ -67,6 +69,10 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         init(original);
     }
 
+    /**
+     * 初始化
+     * @param original
+     */
     private void init(LayoutInflater original) {
 
         //将自己设置为LayoutInflaterFactory，接管view的创建
@@ -83,7 +89,10 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         SkinEngine.register(new SkinEngine.SkinLayoutInflaterWrapper(this));
 
         //设置当前皮肤
-        getContext().setTheme(SkinEngine.getSkin());
+        int themeId = SkinEngine.getSkin();
+        if (themeId != 0) {
+            getContext().setTheme(themeId);
+        }
 
         if (original == null) {
             return;
@@ -103,6 +112,13 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         }
     }
 
+    /**
+     * copy from AOSP PhoneLayoutInflater.java
+     * @param name
+     * @param attrs
+     * @return
+     * @throws ClassNotFoundException
+     */
     @Override
     protected View onCreateView(String name, AttributeSet attrs) throws ClassNotFoundException {
         for (String prefix : sClassPrefixList) {
@@ -126,6 +142,10 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         return skinLayoutInflater;
     }
 
+    /**
+     * copy from AOSP LayoutInflater.java
+     * @param factory
+     */
     @Override
     public void setFactory(Factory factory) {
         if (mFactorySet) {
@@ -142,6 +162,10 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         }
     }
 
+    /**
+     * copy from AOSP LayoutInflater.java
+     * @param factory
+     */
     @Override
     public void setFactory2(Factory2 factory) {
         if (mSelfInit) {
@@ -173,6 +197,15 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         }
     }
 
+    /**
+     * 接管view的创建，copy from AOSP LayoutInflater.java
+     * 收集需要换肤的view及属性
+     * @param parent
+     * @param name
+     * @param context
+     * @param attrs
+     * @return
+     */
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
 
@@ -244,6 +277,12 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         return this.onCreateView(null, s, context, attributeSet);
     }
 
+    /**
+     * copy from AOSP LayoutInflater.java
+     * @Description:
+     * @author: zhaoxuyang
+     * @Date: 2019/2/12
+     */
     private static class FactoryMerger implements Factory2 {
         private final Factory mF1, mF2;
         private final Factory2 mF12, mF22;
