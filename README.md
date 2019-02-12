@@ -73,10 +73,51 @@ public class MyApplication extends Application {
 }
 ```
 
-Activity & Fragment 改造：
+Activity 改造：
 
-可以将自己项目的 Activity（Fragment） 统一继承框架的 SkinActivity（SkinFragment）。
-如果不能以继承的形式，则需将 SkinActivity（SkinFragment）内部的代码拷贝到自己项目相应的类中。
+目的是替换 LayoutInflater 的获取，可以将自己项目的 Activity 统一继承框架的 SkinActivity。
+如果不能以继承的形式，则需将 SkinActivity 内部的代码拷贝到自己项目相应的类中。
+
+```
+package com.zxy.skin.sdk;
+
+
+import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
+
+
+/**
+ * @Description: 使用方可以继承该Activity，或者将内部代码拷贝到自定义的Activity
+ * @author: zhaoxuyang
+ * @Date: 2019/1/31
+ */
+public class SkinActivity extends FragmentActivity {
+
+    private SkinLayoutInflater mLayoutInfalter;
+
+    @Override
+    public final LayoutInflater getLayoutInflater() {
+        if (mLayoutInfalter == null) {
+            mLayoutInfalter = new SkinLayoutInflater(this);
+        }
+        return mLayoutInfalter;
+    }
+
+    @Override
+    public final Object getSystemService(String name) {
+        if (Context.LAYOUT_INFLATER_SERVICE.equals(name)) {
+            if (mLayoutInfalter == null) {
+                mLayoutInfalter = new SkinLayoutInflater(this);
+            }
+            return mLayoutInfalter;
+        }
+        return super.getSystemService(name);
+    }
+
+}
+
+```
 
 ### 3、扩展 SkinApplicator
 
