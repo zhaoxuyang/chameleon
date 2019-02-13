@@ -12,6 +12,7 @@ import android.view.View;
 import com.zxy.skin.sdk.applicator.SkinViewApplicator;
 import com.zxy.skin.sdk.applicator.SkinApplicatorManager;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +72,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     /**
      * 初始化
+     *
      * @param original
      */
     private void init(LayoutInflater original) {
@@ -114,6 +116,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     /**
      * copy from AOSP PhoneLayoutInflater.java
+     *
      * @param name
      * @param attrs
      * @return
@@ -144,6 +147,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     /**
      * copy from AOSP LayoutInflater.java
+     *
      * @param factory
      */
     @Override
@@ -164,6 +168,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     /**
      * copy from AOSP LayoutInflater.java
+     *
      * @param factory
      */
     @Override
@@ -192,7 +197,9 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
      */
     public void changeSkin(int themeId) {
         getContext().setTheme(themeId);
-        for (SkinElement skinElement : skinElements) {
+
+        for (int i = 0; i < skinElements.size(); i++) {
+            SkinElement skinElement = skinElements.get(i);
             skinElement.changeSkin();
         }
     }
@@ -200,6 +207,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
     /**
      * 接管view的创建，copy from AOSP LayoutInflater.java
      * 收集需要换肤的view及属性
+     *
      * @param parent
      * @param name
      * @param context
@@ -246,12 +254,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
             }
 
             //检查该view是否需要进行换肤操作
-            if (view != null) {
-                SkinElement skinElement = SkinElement.create(view, attrs);
-                if (skinElement != null) {
-                    skinElements.add(skinElement);
-                }
-            }
+            this.addElement(view, attrs);
 
             return view;
         } catch (InflateException e) {
@@ -278,7 +281,42 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
     }
 
     /**
+     * 检查控件的属性值是否有对主题属性的引用，如果有则需要换肤
+     * @param view
+     * @param attrs
+     * @return
+     */
+    public boolean addElement(View view, AttributeSet attrs) {
+        if (view == null) {
+            return false;
+        }
+        SkinElement skinElement = new SkinElement(view);
+        int count = attrs.getAttributeCount();
+        for (int i = 0; i < count; i++) {
+            String name = attrs.getAttributeName(i);
+            String value = attrs.getAttributeValue(i);
+            if (!TextUtils.isEmpty(value) && value.startsWith("?")) {
+                try {
+                    String temp = value.substring(1);
+                    int attrId = Integer.parseInt(temp);
+                    skinElement.changeAttrs.put(name, attrId);
+                } catch (Exception e) {
+
+                }
+
+            }
+
+        }
+        if (skinElement.changeAttrs.size() == 0) {
+            return false;
+        }
+        skinElements.add(skinElement);
+        return true;
+    }
+
+    /**
      * copy from AOSP LayoutInflater.java
+     *
      * @Description:
      * @author: zhaoxuyang
      * @Date: 2019/2/12
@@ -315,28 +353,37 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
      * @author: zhaoxuyang
      * @Date: 2019/1/31
      */
-    private static class SkinElement {
-
-        private static String TAG = "SkinElement";
-
-        public View view;
+    private class SkinElement extends WeakReference<View> {
 
         public HashMap<String, Integer> changeAttrs = new HashMap<>();
+
+        public SkinElement(View referent) {
+            super(referent);
+        }
 
         /**
          * 对控件执行换肤
          */
         public void changeSkin() {
-            if (changeAttrs.size() > 0) {
-                SkinViewApplicator adapter = SkinApplicatorManager.getApplicator(view.getClass());
-                if (adapter != null) {
-                    adapter.apply(view, changeAttrs);
-                }
+            View view = get();
+            int attrsSize = changeAttrs.size();
+            if (view == null || attrsSize == 0) {
+                skinElements.remove(this);
+                return;
             }
+            SkinViewApplicator adapter = SkinApplicatorManager.getApplicator(view.getClass());
+            if (adapter != null) {
+                adapter.apply(view, changeAttrs);
+            }
+
         }
 
         public void dump() {
-            Logger.d(TAG, "------ dump view:" + view);
+            View view = get();
+            if (view == null) {
+                return;
+            }
+            Logger.d(TAG, "------ dump view:" + get());
             Set<Map.Entry<String, Integer>> entrySet = changeAttrs.entrySet();
             for (Map.Entry<String, Integer> entry : entrySet) {
                 Log.d(TAG, "attr:" + entry.getKey() + ",value:" + entry.getValue());
@@ -344,36 +391,5 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
             Logger.d(TAG, "------ dump end");
         }
 
-        /**
-         * 检查控件的属性值是否有对主题属性的引用，如果有则需要换肤
-         *
-         * @param view
-         * @param attrs
-         * @return
-         */
-        public static SkinElement create(View view, AttributeSet attrs) {
-            SkinElement skinElement = new SkinElement();
-            skinElement.view = view;
-            int count = attrs.getAttributeCount();
-            for (int i = 0; i < count; i++) {
-                String name = attrs.getAttributeName(i);
-                String value = attrs.getAttributeValue(i);
-                if (!TextUtils.isEmpty(value) && value.startsWith("?")) {
-                    try {
-                        String temp = value.substring(1);
-                        int attrId = Integer.parseInt(temp);
-                        skinElement.changeAttrs.put(name, attrId);
-                    } catch (Exception e) {
-
-                    }
-
-                }
-
-            }
-            if (skinElement.changeAttrs.size() == 0) {
-                return null;
-            }
-            return skinElement;
-        }
     }
 }
