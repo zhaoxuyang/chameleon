@@ -1,6 +1,8 @@
 # chameleon
 Android Change Skin,  Android Night Mode, 安卓换肤，安卓夜间模式
 
+![screenshot](static/demo.gif)
+
 ### 1、皮肤资源组织形式
 
 框架中的皮肤是以主题的形式存在的，在 values 目录下建立 skins.xml，文件内容如下样例：
