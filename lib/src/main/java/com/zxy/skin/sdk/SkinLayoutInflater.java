@@ -230,7 +230,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
             }
 
             if (view == null) {
-                if ("fragment".equals(name)) { // 处理fragment标签，原有PrivateFactory的操作
+                if ("fragment".equals(name)) { // 跳过fragment标签,回到原有的操作
                     view = null;
                 } else {
                     Object lastContext = null;

@@ -12,6 +12,7 @@ import android.view.View;
 import com.zxy.skin.demo.fragment.Fragment1;
 import com.zxy.skin.demo.fragment.Fragment2;
 import com.zxy.skin.demo.R;
+import com.zxy.skin.demo.fragment.Fragment4;
 import com.zxy.skin.sdk.SkinActivity;
 import com.zxy.skin.sdk.SkinEngine;
 
@@ -30,6 +31,7 @@ public class Activity3 extends SkinActivity {
         viewPager.setOffscreenPageLimit(2);
         mData.add(new Fragment1());
         mData.add(new Fragment2());
+        mData.add(new Fragment4());
         viewPager.setAdapter(new MyViewPagerAdapter(getSupportFragmentManager()));
     }
 

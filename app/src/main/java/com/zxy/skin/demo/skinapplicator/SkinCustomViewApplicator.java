@@ -10,7 +10,7 @@ public class SkinCustomViewApplicator extends SkinViewApplicator {
 
     public SkinCustomViewApplicator() {
         super();
-        supportAttrs.put("lineColor", new IAttributeApplicator<CustomView>() {
+        addApplicator("lineColor", new IAttributeApplicator<CustomView>() {
             @Override
             public void onApply(CustomView view, TypedArray typedArray, int typedArrayIndex) {
                 view.setLineColor(typedArray.getColor(typedArrayIndex, Color.BLACK));

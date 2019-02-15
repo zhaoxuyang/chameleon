@@ -1,6 +1,8 @@
 package com.zxy.skin.sdk.applicator;
 
 import android.content.res.TypedArray;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import com.zxy.skin.sdk.Logger;
@@ -18,20 +20,32 @@ public class SkinViewApplicator {
 
     private static final String TAG = "SkinViewApplicator";
 
-    protected HashMap<String, IAttributeApplicator<? extends View>> supportAttrs = new HashMap<>();
+    private HashMap<String, IAttributeApplicator<? extends View>> supportAttrs = new HashMap<>();
 
     private HashMap<String, Integer> mAttrIndexMap = new HashMap<>();
 
     private int[] attrArr;
 
     public SkinViewApplicator() {
-        supportAttrs.put("background", new IAttributeApplicator<View>() {
+        addApplicator("background", new IAttributeApplicator<View>() {
 
             @Override
             public void onApply(View view, TypedArray typedArray, int typedArrayIndex) {
                 view.setBackground(typedArray.getDrawable(typedArrayIndex));
             }
         });
+
+        addApplicator("foreground", new IAttributeApplicator<View>() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onApply(View view, TypedArray typedArray, int typedArrayIndex) {
+                view.setForeground(typedArray.getDrawable(typedArrayIndex));
+            }
+        });
+    }
+
+    protected void addApplicator(String attrName, IAttributeApplicator<? extends View> applicator) {
+        supportAttrs.put(attrName, applicator);
     }
 
     public void apply(View view, HashMap<String, Integer> attrs) {

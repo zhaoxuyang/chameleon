@@ -64,7 +64,7 @@ public class Fragment1 extends Fragment {
                 convertView = view;
             }
             MyViewHolder myViewHolder = (MyViewHolder) convertView.getTag();
-            myViewHolder.textView.setText("item:"+position);
+            myViewHolder.textView.setText("listview item:"+position);
             myViewHolder.button.setText("btn:"+position);
             return convertView;
         }

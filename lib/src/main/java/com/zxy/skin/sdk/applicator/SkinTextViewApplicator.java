@@ -16,7 +16,7 @@ public class SkinTextViewApplicator extends SkinViewApplicator {
     public SkinTextViewApplicator() {
         //super必须调用
         super();
-        supportAttrs.put("textColor", new IAttributeApplicator<TextView>(){
+        addApplicator("textColor", new IAttributeApplicator<TextView>(){
 
             @Override
             public void onApply(TextView view, TypedArray typedArray, int typedArrayIndex) {
