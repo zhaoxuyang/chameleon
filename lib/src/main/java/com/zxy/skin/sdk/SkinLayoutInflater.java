@@ -16,6 +16,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -198,9 +199,12 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
     public void changeSkin(int themeId) {
         getContext().setTheme(themeId);
 
-        for (int i = 0; i < skinElements.size(); i++) {
-            SkinElement skinElement = skinElements.get(i);
-            skinElement.changeSkin();
+        Iterator<SkinElement> iterator = skinElements.iterator();
+        while (iterator.hasNext()) {
+            SkinElement skinElement = iterator.next();
+            if (!skinElement.changeSkin()) {
+                iterator.remove();
+            }
         }
     }
 
@@ -282,6 +286,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
 
     /**
      * 检查控件的属性值是否有对主题属性的引用，如果有则需要换肤
+     *
      * @param view
      * @param attrs
      * @return
@@ -364,18 +369,17 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         /**
          * 对控件执行换肤
          */
-        public void changeSkin() {
+        public boolean changeSkin() {
             View view = get();
             int attrsSize = changeAttrs.size();
             if (view == null || attrsSize == 0) {
-                skinElements.remove(this);
-                return;
+                return false;
             }
-            SkinViewApplicator adapter = SkinApplicatorManager.getApplicator(view.getClass());
-            if (adapter != null) {
-                adapter.apply(view, changeAttrs);
+            SkinViewApplicator applicator = SkinApplicatorManager.getApplicator(view.getClass());
+            if (applicator != null) {
+                applicator.apply(view, changeAttrs);
             }
-
+            return true;
         }
 
         public void dump() {

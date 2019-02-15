@@ -3,6 +3,7 @@ package com.zxy.skin.sdk;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @Description: 换肤引擎，管理当前使用的主题及换肤监听器
@@ -24,8 +25,12 @@ public class SkinEngine {
         if (mThemeId != themeId) {
             mThemeId = themeId;
             if (mThemeId != 0) {
-                for (int i = 0; i < mSkinObservers.size(); i++) {
-                    mSkinObservers.get(i).onChangeSkin(mThemeId);
+                Iterator<ISkinObserver> iterator = mSkinObservers.iterator();
+                while (iterator.hasNext()) {
+                    ISkinObserver skinObserver = iterator.next();
+                    if (!skinObserver.onChangeSkin(themeId)) {
+                        iterator.remove();
+                    }
                 }
             }
         }
@@ -55,12 +60,13 @@ public class SkinEngine {
      */
     public interface ISkinObserver {
 
-        void onChangeSkin(int themeId);
+        boolean onChangeSkin(int themeId);
 
     }
 
     /**
      * SkinLayoutInflaterWrapper
+     *
      * @Description:
      * @author: zhaoxuyang
      * @Date: 2019/2/1
@@ -72,13 +78,14 @@ public class SkinEngine {
         }
 
         @Override
-        public void onChangeSkin(int themeId) {
+        public boolean onChangeSkin(int themeId) {
             SkinLayoutInflater skinLayoutInflater = get();
             if (skinLayoutInflater == null) {
-                mSkinObservers.remove(this);
-            } else {
-                skinLayoutInflater.changeSkin(themeId);
+                return false;
             }
+            skinLayoutInflater.changeSkin(themeId);
+
+            return true;
         }
     }
 
