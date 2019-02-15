@@ -1,7 +1,11 @@
 # chameleon
 Android Change Skin,  Android Night Mode, 安卓换肤，安卓夜间模式
 
+方便的话给个star! ️✨
+
 ![screenshot](static/demo.gif)
+
+## 如何使用
 
 ### 1、皮肤资源组织形式
 
