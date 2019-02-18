@@ -27,7 +27,7 @@ public class SkinViewApplicator {
     private int[] attrArr;
 
     public SkinViewApplicator() {
-        addApplicator("background", new IAttributeApplicator<View>() {
+        addAttributeApplicator("background", new IAttributeApplicator<View>() {
 
             @Override
             public void onApply(View view, TypedArray typedArray, int typedArrayIndex) {
@@ -35,7 +35,7 @@ public class SkinViewApplicator {
             }
         });
 
-        addApplicator("foreground", new IAttributeApplicator<View>() {
+        addAttributeApplicator("foreground", new IAttributeApplicator<View>() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onApply(View view, TypedArray typedArray, int typedArrayIndex) {
@@ -44,10 +44,15 @@ public class SkinViewApplicator {
         });
     }
 
-    protected void addApplicator(String attrName, IAttributeApplicator<? extends View> applicator) {
+    protected void addAttributeApplicator(String attrName, IAttributeApplicator<? extends View> applicator) {
         supportAttrs.put(attrName, applicator);
     }
 
+    /**
+     * 换肤核心逻辑
+     * @param view
+     * @param attrs
+     */
     public void apply(View view, HashMap<String, Integer> attrs) {
 
         if (view == null || attrs == null || attrs.size() == 0) {

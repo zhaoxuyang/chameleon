@@ -5,7 +5,6 @@ import android.app.Application;
 import com.zxy.skin.demo.skinapplicator.SkinCustomViewApplicator;
 import com.zxy.skin.demo.widget.CustomView;
 import com.zxy.skin.sdk.SkinEngine;
-import com.zxy.skin.sdk.applicator.SkinApplicatorManager;
 
 
 public class MyApplication extends Application {
@@ -14,6 +13,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SkinEngine.changeSkin(R.style.AppTheme);
-        SkinApplicatorManager.register(CustomView.class, new SkinCustomViewApplicator());
+        SkinEngine.registerSkinApplicator(CustomView.class, new SkinCustomViewApplicator());
     }
 }

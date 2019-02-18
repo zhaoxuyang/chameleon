@@ -1,6 +1,11 @@
 package com.zxy.skin.sdk;
 
 
+import android.view.View;
+
+import com.zxy.skin.sdk.applicator.SkinApplicatorManager;
+import com.zxy.skin.sdk.applicator.SkinViewApplicator;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +26,10 @@ public class SkinEngine {
 
     }
 
+    /**
+     * 变更皮肤
+     * @param themeId
+     */
     public static void changeSkin(int themeId) {
         if (mThemeId != themeId) {
             mThemeId = themeId;
@@ -37,21 +46,46 @@ public class SkinEngine {
 
     }
 
+    /**
+     * 获取当前皮肤
+     * @return
+     */
     public static int getSkin() {
         return mThemeId;
     }
 
-    public static void register(ISkinObserver observer) {
+    /**
+     * 注册皮肤变化监听器
+     * @param observer
+     */
+    public static void registerSkinObserver(ISkinObserver observer) {
         if (observer != null && !mSkinObservers.contains(observer)) {
             mSkinObservers.add(observer);
         }
     }
 
-    public static void unRegister(ISkinObserver observer) {
+    /**
+     * 解除注册皮肤变化监听器
+     * @param observer
+     */
+    public static void unRegisterSkinObserver(ISkinObserver observer) {
         if (observer != null) {
             mSkinObservers.remove(observer);
         }
     }
+
+    /**
+     * 注册skinapplicator
+     * @param viewClass
+     * @param applicator
+     */
+    public static void registerSkinApplicator(Class<? extends View> viewClass, SkinViewApplicator applicator) {
+        if (viewClass == null || applicator == null) {
+            return;
+        }
+        SkinApplicatorManager.register(viewClass, applicator);
+    }
+
 
     /**
      * @Description: 换肤监听器

@@ -147,7 +147,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SkinEngine.getInstance().changeSkin(R.style.AppTheme);
-        SkinApplicatorManager.register(CustomView.class, new SkinCustomViewApplicator());
+        SkinEngine.registerSkinApplicator(CustomView.class, new SkinCustomViewApplicator());
+
     }
 }
 ```

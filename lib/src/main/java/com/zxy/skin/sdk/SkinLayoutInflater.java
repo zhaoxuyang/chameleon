@@ -89,7 +89,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         }
 
         //将自己注册到换肤监听
-        SkinEngine.register(new SkinEngine.SkinLayoutInflaterWrapper(this));
+        SkinEngine.registerSkinObserver(new SkinEngine.SkinLayoutInflaterWrapper(this));
 
         if (original == null) {
             return;

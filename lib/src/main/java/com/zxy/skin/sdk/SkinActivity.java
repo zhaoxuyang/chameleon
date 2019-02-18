@@ -3,9 +3,8 @@ package com.zxy.skin.sdk;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 
@@ -14,7 +13,7 @@ import android.view.LayoutInflater;
  * @author: zhaoxuyang
  * @Date: 2019/1/31
  */
-public class SkinActivity extends FragmentActivity {
+public class SkinActivity extends AppCompatActivity {
 
     private SkinLayoutInflater mLayoutInfalter;
 

@@ -11,7 +11,7 @@
 
     <!--定义皮肤主题，给皮肤的属性赋值-->
     <!--白天皮肤-->
-    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="main_bg">@color/main_bg</item>
         <item name="button_bg">@color/button_bg</item>
         <item name="button_text_color">@color/button_text_color</item>
@@ -20,7 +20,7 @@
     </style>
 
     <!--夜间皮肤-->
-    <style name="AppNightTheme" parent="android:Theme.Light.NoTitleBar">
+    <style name="AppNightTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="main_bg">@color/night_main_bg</item>
         <item name="button_bg">@color/night_button_bg</item>
         <item name="button_text_color">@color/night_button_text_color</item>
