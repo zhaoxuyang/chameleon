@@ -103,6 +103,15 @@ public class SkinActivity extends FragmentActivity {
     private SkinLayoutInflater mLayoutInfalter;
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(mLayoutInfalter==null){
+            getLayoutInflater();
+        }
+        mLayoutInfalter.applyCurrentSkin();
+    }
+
+    @Override
     public final LayoutInflater getLayoutInflater() {
         if (mLayoutInfalter == null) {
             mLayoutInfalter = new SkinLayoutInflater(this);
