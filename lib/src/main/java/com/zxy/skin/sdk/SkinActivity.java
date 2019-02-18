@@ -2,6 +2,9 @@ package com.zxy.skin.sdk;
 
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 
@@ -14,6 +17,16 @@ import android.view.LayoutInflater;
 public class SkinActivity extends FragmentActivity {
 
     private SkinLayoutInflater mLayoutInfalter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(mLayoutInfalter==null){
+            getLayoutInflater();
+        }
+        mLayoutInfalter.applyCurrentSkin();
+    }
+
 
     @Override
     public final LayoutInflater getLayoutInflater() {

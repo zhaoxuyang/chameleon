@@ -91,12 +91,6 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         //将自己注册到换肤监听
         SkinEngine.register(new SkinEngine.SkinLayoutInflaterWrapper(this));
 
-        //设置当前皮肤
-        int themeId = SkinEngine.getSkin();
-        if (themeId != 0) {
-            getContext().setTheme(themeId);
-        }
-
         if (original == null) {
             return;
         }
@@ -112,6 +106,16 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
             } else {
                 mFactory = factory;
             }
+        }
+    }
+
+    /**
+     * 设置当前皮肤
+     */
+    public void applyCurrentSkin(){
+        int themeId = SkinEngine.getSkin();
+        if (themeId != 0) {
+            getContext().setTheme(themeId);
         }
     }
 
