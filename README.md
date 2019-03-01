@@ -89,7 +89,9 @@ package com.zxy.skin.sdk;
 
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 
 
@@ -98,18 +100,17 @@ import android.view.LayoutInflater;
  * @author: zhaoxuyang
  * @Date: 2019/1/31
  */
-public class SkinActivity extends FragmentActivity {
+public class SkinActivity extends AppCompatActivity {
 
     private SkinLayoutInflater mLayoutInfalter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(mLayoutInfalter==null){
-            getLayoutInflater();
-        }
+        getLayoutInflater();
         mLayoutInfalter.applyCurrentSkin();
     }
+
 
     @Override
     public final LayoutInflater getLayoutInflater() {
@@ -122,14 +123,16 @@ public class SkinActivity extends FragmentActivity {
     @Override
     public final Object getSystemService(String name) {
         if (Context.LAYOUT_INFLATER_SERVICE.equals(name)) {
-            if (mLayoutInfalter == null) {
-                mLayoutInfalter = new SkinLayoutInflater(this);
-            }
-            return mLayoutInfalter;
+            return getLayoutInflater();
         }
         return super.getSystemService(name);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLayoutInfalter.destory();
+    }
 }
 
 ```
@@ -153,8 +156,33 @@ public class MyApplication extends Application {
 }
 ```
 
+### 4、代码创建的 view 如何换肤
+
+有时候会需要在代码中动态创建view，故也提供了针对动态创建view的方案，使用如下：
+
+```
+public class MyActivity extends SkinActivity {
+
+    private LinearLayout mLinearLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mLinearLayout = new LinearLayout(this);
+        setContentView(mLinearLayout);
+        SkinEngine.setBackgroud(mLinearLayout, R.attr.main_bg);
+        //或者 SkinEngine.applyViewAttr(mLinearLayout, "background", R.attr.main_bg);
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SkinEngine.unRegisterSkinObserver(mLinearLayout);
+    }
+}
+```
 ## TODO
 
 1、Applicator annotation processer
-
-2、对通过代码创建的控件，提供换肤操作

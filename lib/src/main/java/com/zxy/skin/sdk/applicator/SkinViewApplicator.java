@@ -3,6 +3,7 @@ package com.zxy.skin.sdk.applicator;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.ArrayMap;
 import android.view.View;
 
 import com.zxy.skin.sdk.Logger;
@@ -51,11 +52,11 @@ public class SkinViewApplicator {
     /**
      * 换肤核心逻辑
      * @param view
-     * @param attrs
+     * @param attrsMap
      */
-    public void apply(View view, HashMap<String, Integer> attrs) {
+    public void apply(View view, ArrayMap<String, Integer> attrsMap) {
 
-        if (view == null || attrs == null || attrs.size() == 0) {
+        if (view == null || attrsMap == null || attrsMap.size() == 0) {
             return;
         }
 
@@ -72,7 +73,7 @@ public class SkinViewApplicator {
 
             Set<String> attrNameSet = supportAttrs.keySet();
             for (String attrName : attrNameSet) {
-                Integer value = attrs.get(attrName);
+                Integer value = attrsMap.get(attrName);
                 if (value != null) {
                     attrArr[index] = value;
                     mAttrIndexMap.put(attrName, index);

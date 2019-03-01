@@ -2,6 +2,7 @@ package com.zxy.skin.sdk;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
@@ -25,7 +26,7 @@ import java.util.Set;
  * @author: zhaoxuyang
  * @Date: 2019/1/31
  */
-public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater.Factory2 {
+public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater.Factory2,SkinEngine.ISkinObserver {
 
     private static String TAG = "SkinLayoutInflater";
 
@@ -89,7 +90,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         }
 
         //将自己注册到换肤监听
-        SkinEngine.registerSkinObserver(new SkinEngine.SkinLayoutInflaterWrapper(this));
+        SkinEngine.registerSkinObserver(this);
 
         if (original == null) {
             return;
@@ -107,6 +108,12 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
                 mFactory = factory;
             }
         }
+    }
+
+
+    public void destory(){
+        skinElements.clear();
+        SkinEngine.unRegisterSkinObserver(this);
     }
 
     /**
@@ -197,20 +204,6 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         }
     }
 
-    /**
-     * 对收集的控件执行换肤操作
-     */
-    public void changeSkin(int themeId) {
-        getContext().setTheme(themeId);
-
-        Iterator<SkinElement> iterator = skinElements.iterator();
-        while (iterator.hasNext()) {
-            SkinElement skinElement = iterator.next();
-            if (!skinElement.changeSkin()) {
-                iterator.remove();
-            }
-        }
-    }
 
     /**
      * 接管view的创建，copy from AOSP LayoutInflater.java
@@ -323,6 +316,19 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
         return true;
     }
 
+    @Override
+    public boolean onChangeSkin() {
+        getContext().setTheme(SkinEngine.getSkin());
+        Iterator<SkinElement> iterator = skinElements.iterator();
+        while (iterator.hasNext()) {
+            SkinElement skinElement = iterator.next();
+            if (!skinElement.changeSkin()) {
+                iterator.remove();
+            }
+        }
+        return true;
+    }
+
     /**
      * copy from AOSP LayoutInflater.java
      *
@@ -364,7 +370,7 @@ public class SkinLayoutInflater extends LayoutInflater implements LayoutInflater
      */
     private class SkinElement extends WeakReference<View> {
 
-        public HashMap<String, Integer> changeAttrs = new HashMap<>();
+        public ArrayMap<String, Integer> changeAttrs = new ArrayMap<>();
 
         public SkinElement(View referent) {
             super(referent);

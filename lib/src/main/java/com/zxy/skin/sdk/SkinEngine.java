@@ -1,13 +1,15 @@
 package com.zxy.skin.sdk;
 
 
+import android.util.ArrayMap;
 import android.view.View;
+import android.widget.TextView;
 
 import com.zxy.skin.sdk.applicator.SkinApplicatorManager;
 import com.zxy.skin.sdk.applicator.SkinViewApplicator;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -18,9 +20,11 @@ import java.util.Iterator;
 public class SkinEngine {
 
 
-    private static ArrayList<ISkinObserver> mSkinObservers = new ArrayList<>();
+    private static HashSet<ISkinObserver> skinObservers = new HashSet<>();
 
-    private static int mThemeId;
+    private static HashMap<View, SkinViewWrapper> skinViewMap = new HashMap<>();
+
+    private static int themeId;
 
     private SkinEngine() {
 
@@ -28,16 +32,17 @@ public class SkinEngine {
 
     /**
      * 变更皮肤
+     *
      * @param themeId
      */
     public static void changeSkin(int themeId) {
-        if (mThemeId != themeId) {
-            mThemeId = themeId;
-            if (mThemeId != 0) {
-                Iterator<ISkinObserver> iterator = mSkinObservers.iterator();
+        if (SkinEngine.themeId != themeId) {
+            SkinEngine.themeId = themeId;
+            if (SkinEngine.themeId != 0) {
+                Iterator<ISkinObserver> iterator = skinObservers.iterator();
                 while (iterator.hasNext()) {
                     ISkinObserver skinObserver = iterator.next();
-                    if (!skinObserver.onChangeSkin(themeId)) {
+                    if (!skinObserver.onChangeSkin()) {
                         iterator.remove();
                     }
                 }
@@ -48,34 +53,38 @@ public class SkinEngine {
 
     /**
      * 获取当前皮肤
+     *
      * @return
      */
     public static int getSkin() {
-        return mThemeId;
+        return themeId;
     }
 
     /**
      * 注册皮肤变化监听器
+     *
      * @param observer
      */
     public static void registerSkinObserver(ISkinObserver observer) {
-        if (observer != null && !mSkinObservers.contains(observer)) {
-            mSkinObservers.add(observer);
+        if (observer != null && !skinObservers.contains(observer)) {
+            skinObservers.add(observer);
         }
     }
 
     /**
      * 解除注册皮肤变化监听器
+     *
      * @param observer
      */
     public static void unRegisterSkinObserver(ISkinObserver observer) {
         if (observer != null) {
-            mSkinObservers.remove(observer);
+            skinObservers.remove(observer);
         }
     }
 
     /**
      * 注册skinapplicator
+     *
      * @param viewClass
      * @param applicator
      */
@@ -86,6 +95,56 @@ public class SkinEngine {
         SkinApplicatorManager.register(viewClass, applicator);
     }
 
+    /**
+     * 代码设置背景
+     *
+     * @param view
+     * @param backgroundAttrId
+     */
+    public static void setBackgroud(View view, int backgroundAttrId) {
+        applyViewAttr(view, "background", backgroundAttrId);
+    }
+
+    /**
+     * 代码设置字的颜色
+     *
+     * @param view
+     * @param textColorAttrId
+     */
+    public static void setTextColor(TextView view, int textColorAttrId) {
+        applyViewAttr(view, "textColor", textColorAttrId);
+    }
+
+
+    /**
+     * @param view
+     * @param attrName
+     * @param skinAttrId
+     */
+    public static void applyViewAttr(View view, String attrName, int skinAttrId) {
+        SkinViewWrapper skinViewWrapper = skinViewMap.get(view);
+        if (skinViewWrapper == null) {
+            skinViewWrapper = new SkinViewWrapper(view);
+            skinViewMap.put(view, skinViewWrapper);
+            skinObservers.add(skinViewWrapper);
+        }
+        skinViewWrapper.attrsMap.put(attrName, skinAttrId);
+        view.getContext().setTheme(SkinEngine.getSkin());
+        SkinApplicatorManager.getApplicator(view.getClass()).apply(view, skinViewWrapper.attrsMap);
+    }
+
+    /** 解除对view的监控
+     * @param view
+     */
+    public static void unRegisterSkinObserver(View view) {
+        SkinViewWrapper skinViewWrapper = skinViewMap.get(view);
+        if (skinViewWrapper != null) {
+            skinViewMap.remove(view);
+            skinObservers.remove(skinViewWrapper);
+        }
+
+    }
+
 
     /**
      * @Description: 换肤监听器
@@ -94,33 +153,26 @@ public class SkinEngine {
      */
     public interface ISkinObserver {
 
-        boolean onChangeSkin(int themeId);
+        boolean onChangeSkin();
 
     }
 
-    /**
-     * SkinLayoutInflaterWrapper
-     *
-     * @Description:
-     * @author: zhaoxuyang
-     * @Date: 2019/2/1
-     */
-    public static class SkinLayoutInflaterWrapper extends WeakReference<SkinLayoutInflater> implements ISkinObserver {
+    static class SkinViewWrapper implements ISkinObserver {
 
-        public SkinLayoutInflaterWrapper(SkinLayoutInflater referent) {
-            super(referent);
+        View view;
+
+        ArrayMap<String, Integer> attrsMap = new ArrayMap<>();
+
+        SkinViewWrapper(View view) {
+            this.view = view;
         }
 
         @Override
-        public boolean onChangeSkin(int themeId) {
-            SkinLayoutInflater skinLayoutInflater = get();
-            if (skinLayoutInflater == null) {
-                return false;
-            }
-            skinLayoutInflater.changeSkin(themeId);
-
+        public boolean onChangeSkin() {
+            SkinApplicatorManager.getApplicator(view.getClass()).apply(view, attrsMap);
             return true;
         }
     }
+
 
 }

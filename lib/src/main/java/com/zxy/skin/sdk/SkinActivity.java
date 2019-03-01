@@ -20,9 +20,7 @@ public class SkinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(mLayoutInfalter==null){
-            getLayoutInflater();
-        }
+        getLayoutInflater();
         mLayoutInfalter.applyCurrentSkin();
     }
 
@@ -38,12 +36,14 @@ public class SkinActivity extends AppCompatActivity {
     @Override
     public final Object getSystemService(String name) {
         if (Context.LAYOUT_INFLATER_SERVICE.equals(name)) {
-            if (mLayoutInfalter == null) {
-                mLayoutInfalter = new SkinLayoutInflater(this);
-            }
-            return mLayoutInfalter;
+            return getLayoutInflater();
         }
         return super.getSystemService(name);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLayoutInfalter.destory();
+    }
 }
