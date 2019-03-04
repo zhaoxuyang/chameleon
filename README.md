@@ -149,7 +149,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SkinEngine.getInstance().changeSkin(R.style.AppTheme);
+        SkinEngine.changeSkin(R.style.AppTheme);
         SkinEngine.registerSkinApplicator(CustomView.class, new SkinCustomViewApplicator());
 
     }
