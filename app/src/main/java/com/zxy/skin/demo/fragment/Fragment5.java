@@ -3,7 +3,6 @@ package com.zxy.skin.demo.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zxy.skin.demo.R;
+import com.zxy.skin.sdk.SkinFragment;
 
 
-public class Fragment5 extends Fragment {
+public class Fragment5 extends SkinFragment {
 
     private View mView;
 
