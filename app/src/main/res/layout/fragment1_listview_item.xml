@@ -6,6 +6,10 @@
     android:padding="10dp"
     android:orientation="horizontal"
     android:background="?attr/main_bg">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@mipmap/a"/>
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
