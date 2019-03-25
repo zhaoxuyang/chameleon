@@ -21,4 +21,10 @@
 "
         android:textColor="?attr/text_color" />
 
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/a"/>
+
 </LinearLayout>

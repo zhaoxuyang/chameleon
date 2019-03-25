@@ -109,7 +109,15 @@ public class SkinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater();
         mLayoutInfalter.applyCurrentSkin();
+        // AppCompatActivity 需要设置
+        AppCompatDelegate delegate = this.getDelegate();
+        if (delegate instanceof LayoutInflater.Factory2) {
+            mLayoutInfalter.setFactory2((LayoutInflater.Factory2) delegate);
+        }
+        
+        // 自己的逻辑
     }
+
 
 
     @Override

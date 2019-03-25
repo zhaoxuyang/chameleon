@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 
 
@@ -22,6 +23,13 @@ public class SkinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater();
         mLayoutInfalter.applyCurrentSkin();
+        // AppCompatActivity 需要设置
+        AppCompatDelegate delegate = this.getDelegate();
+        if (delegate instanceof LayoutInflater.Factory2) {
+            mLayoutInfalter.setFactory2((LayoutInflater.Factory2) delegate);
+        }
+
+        // 自己的逻辑
     }
 
 
